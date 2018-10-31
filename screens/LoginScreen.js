@@ -5,7 +5,6 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    Linking,
     ImageBackground,
 } from "react-native";
 
@@ -17,23 +16,17 @@ class LoginScreen extends Component {
     state = {
         result: null,
     };
-    componentDidMount() {
-        Linking.getInitialURL().then((url) => {
-          if (url) {
-            console.log('Initial urqsdqsdqsdqsl is: ' + url);
-          }
-        }).catch(err => console.error('An error occurred', err));
-      }
+
     render() {
         return (
             <ImageBackground source={bgImage} style={styles.backgroundContainer}>
-                <TouchableOpacity onPress={this._handlePressButtonAsync}>
+                <TouchableOpacity onPress={this.props.navigation.navigate('HomeScreen')}>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <Image source={btnButton} />
                     </View>
                 </TouchableOpacity>
             </ImageBackground>
-        );x
+        );
     }
 
     _handlePressButtonAsync = async () => {
