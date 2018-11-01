@@ -12,6 +12,8 @@ import bgImage from '../assets/Login/background.jpg';
 import btnButton from '../assets/Login/btnLogin.png';
 import { WebBrowser } from 'expo';
 
+var access_token = "a7fee3414196eb1bbfb28be6759e0fcd135dce74"
+
 class LoginScreen extends Component {
     state = {
         result: null,
@@ -20,7 +22,8 @@ class LoginScreen extends Component {
     render() {
         return (
             <ImageBackground source={bgImage} style={styles.backgroundContainer}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
+                {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}> */}
+                <TouchableOpacity onPress={this._handlePressButtonAsync}>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <Image source={btnButton} />
                     </View>
@@ -33,6 +36,7 @@ class LoginScreen extends Component {
         let result = await WebBrowser.openAuthSessionAsync('https://api.imgur.com/oauth2/authorize?client_id=63fe1ea47e0a5ab&response_type=token');
         this.setState({ result });
         console.log(this.state.result);
+        this.props.navigation.navigate('Home');
     };
 }
 
