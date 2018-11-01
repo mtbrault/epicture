@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 import Colors from '../constants/Colors';
 
-import HomeScreen from '../screens/FavoritesScreen';
+import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SearchScreen from '../screens/SearchScreen';
 import UploadScreen from '../screens/UploadScreen';
