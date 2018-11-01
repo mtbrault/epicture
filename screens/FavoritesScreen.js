@@ -3,17 +3,18 @@ import axios from "axios";
 import {
     View,
     StyleSheet,
-    Text
+    Image,
+    Dimensions
 } from "react-native";
 
-
+var { height, width } = Dimensions.get('window');
 class FavoritesScreen extends Component {
     constructor(props) {
         super(props)
     }
     state = {
-        user: "ValerianHuylebroeck",
-        access_token: "0c35ca712ea8b032084682a37e6d28ca594012c3",
+        user: "zackmat",
+        access_token: "c513b70b97c5abd633860b8e732a590d9fab3078",
         userFavData: []
     }
     async getUserFav() {
@@ -29,13 +30,17 @@ class FavoritesScreen extends Component {
     }
 
     async componentDidMount() {
-        //await this.getUserFav();
+        await this.getUserFav();
     }
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text>My favorite</Text>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+                {this.state.userFavData.map((data, index) => {
+                    return (<View key={index}>
+                        <Image style={{width: (width / 3), height: (width / 3)}} source ={{uri: data.link}} />
+                    </View>)
+                })}
             </View>
         );
     }

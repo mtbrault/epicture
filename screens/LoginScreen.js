@@ -15,8 +15,8 @@ import apiInfo from "../constants/apiInfo"
 
 class LoginScreen extends Component {
     state = {
-        user: 'ValerianHuylebroeck',
-        access_token: '0c35ca712ea8b032084682a37e6d28ca594012c3',
+        user: 'zackmat',
+        access_token: 'c513b70b97c5abd633860b8e732a590d9fab3078',
         client_id: apiInfo.clientID
     };
 

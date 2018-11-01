@@ -51,11 +51,7 @@ class HomeScreen extends Component {
     async componentDidMount() {
         await this.getUser();
         await this.getUserImg();
-        {
-            this.state.userImgData.map((data, index) => {
-                { console.log(data.link) }
-            })
-        }
+        console.log(this.state.dataUser.avatar);
     }
 
     render() {
