@@ -1,77 +1,92 @@
+import React from 'react';
+
 import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
 
-import { Platform } from 'react-native';
-import TabBarIcon from '../components/TabBarIcon';
+import { StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome'
 
-import HomeScreenPage from '../screens/HomeScreen';
-import LoginScreenPage from '../screens/LoginScreen';
-import SettingsScreenPage from '../screens/SettingsScreen';
+import Colors from '../constants/Colors';
 
-const HomeScreenStack = createStackNavigator(
-    {
-        HomeScreen: HomeScreenPage,
-    },
-    {
-        headerMode: 'none'
-    }
-)
-
-HomeScreenStack.navigationOptions = {
-    tabBarLabel: 'Home',
-    tabBarIcon: ({ focused }) => (
-      <TabBarIcon
-        focused={focused}
-        name={
-          Platform.OS === 'ios'
-            ? `ios-information-circle${focused ? '' : '-outline'}`
-            : 'md-information-circle'
-        }
-      />
-    ),
-  };
+import HomeScreen from '../screens/FavoritesScreen';
+import LoginScreen from '../screens/LoginScreen';
+import SearchScreen from '../screens/SearchScreen';
+import UploadScreen from '../screens/UploadScreen';
+import FavoritesScreen from '../screens/FavoritesScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const LoginScreenStack = createStackNavigator(
     {
-        LoginScreen: LoginScreenPage,
+        LoginScreen: LoginScreen,
     },
     {
         headerMode: 'none'
     }
 )
 
-const SettingsScreenStack = createStackNavigator(
-    {
-        SettingsScreen: SettingsScreenPage,
-    },{
-        headerMode: 'none'
-    }
-)
-
-SettingsScreenStack.navigationOptions = {
-    tabBarLabel: 'Settings',
-    tabBarIcon: ({ focused }) => (
-      <TabBarIcon
-        focused={focused}
-        name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options'}
-      />
-    ),
-  };
-  
-
-const Tab = createBottomTabNavigator(
-    {
-        HomeScreen: {
-            screen: HomeScreenStack,
-        },
-        SettingsScreen: {
-            screen: SettingsScreenStack
+const Tab = createBottomTabNavigator({
+    Home: {
+        screen: HomeScreen,
+        navigationOptions: {
+            tabBarLabel: 'HOME',
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="th-large" color={tintColor} size={24} />
+            )
+        }
+    },
+    Upload: {
+        screen: UploadScreen,
+        navigationOptions: {
+            tabBarLabel: 'UPLOAD',
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="upload" color={tintColor} size={24} />
+            )
+        }
+    },
+    Search: {
+        screen: SearchScreen,
+        navigationOptions: {
+            tabBarLabel: 'SEARCH',
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="search" color={tintColor} size={24} />
+            )
+        }
+    },
+    Favorites: {
+        screen: FavoritesScreen,
+        navigationOptions: {
+            tabBarLabel: 'FAVORITES',
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="star" color={tintColor} size={24} />
+            )
+        }
+    },
+    Profile: {
+        screen: ProfileScreen,
+        navigationOptions: {
+            tabBarLabel: 'PROFILE',
+            tabBarIcon: ({ tintColor }) => (
+                <Icon name="user" color={tintColor} size={24} />
+            )
         }
     }
-)
+},{
+    tabBarOptions: {
+      activeTintColor: Colors.tintColor,
+      inactiveTintColor: 'grey',
+      style: {
+        backgroundColor: 'white',
+        borderTopWidth: 0,
+        shadowOffset: { width: 5, height: 3 },
+        shadowColor: 'black',
+        shadowOpacity: 0.5,
+        elevation: 5
+      }
+    }
+  })
 
 const SwitchNav = createSwitchNavigator(
     {
-        LoginScreen: {
+        Login: {
             screen: LoginScreenStack,
             navigationOptions: {
                 tabBarLabel: 'Login Page'
@@ -85,8 +100,18 @@ const SwitchNav = createSwitchNavigator(
         },
     },
     {
-      initialRouteName: 'LoginScreen',
+        initialRouteName: 'Login',
     }
 )
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });
+  
 
 export default SwitchNav;

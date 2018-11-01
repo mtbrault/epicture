@@ -6,17 +6,17 @@ import {
     Text
 } from "react-native";
 
-class HomeScreen extends Component {
+class ProfileScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>HomeScreen</Text>
+                <Text>ProfileScreen</Text>
             </View>
         );
     }
 }
 
-export default HomeScreen;
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
     container: {
