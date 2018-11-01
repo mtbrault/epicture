@@ -12,7 +12,6 @@ import LoginScreen from '../screens/LoginScreen';
 import SearchScreen from '../screens/SearchScreen';
 import UploadScreen from '../screens/UploadScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
-import ProfileScreen from '../screens/ProfileScreen';
 
 const LoginScreenStack = createStackNavigator(
     {
@@ -59,15 +58,6 @@ const Tab = createBottomTabNavigator({
                 <Icon name="star" color={tintColor} size={24} />
             )
         }
-    },
-    Profile: {
-        screen: ProfileScreen,
-        navigationOptions: {
-            tabBarLabel: 'PROFILE',
-            tabBarIcon: ({ tintColor }) => (
-                <Icon name="user" color={tintColor} size={24} />
-            )
-        }
     }
 },{
     tabBarOptions: {
@@ -76,9 +66,10 @@ const Tab = createBottomTabNavigator({
       style: {
         backgroundColor: 'white',
         borderTopWidth: 0,
-        shadowOffset: { width: 5, height: 3 },
+        
+        shadowOffset: { width: 10, height: 10 },
         shadowColor: 'black',
-        shadowOpacity: 0.5,
+        shadowOpacity: 1,
         elevation: 5
       }
     }

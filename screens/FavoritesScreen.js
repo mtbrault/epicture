@@ -6,17 +6,17 @@ import {
     Text
 } from "react-native";
 
-class HomeScreen extends Component {
+class FavoritesScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>FavoriteScreen</Text>
+                <Text>FavoritesScreen</Text>
             </View>
         );
     }
 }
 
-export default HomeScreen;
+export default FavoritesScreen;
 
 const styles = StyleSheet.create({
     container: {
