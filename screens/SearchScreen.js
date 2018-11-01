@@ -3,14 +3,30 @@ import React, { Component } from "react";
 import {
     View,
     StyleSheet,
-    Text
+    TextInput,
+    Text,
+    TouchableOpacity
 } from "react-native";
 
 class SearchScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {text: ''};
+    }
+
+    _searchData() {
+        console.log("Je recherche avec " + this.state.text);
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <Text>SearchScreen</Text>
+                <TextInput  style={{height: 40, width: 200, alignItems: 'center', justifyContent: 'center'}}
+                            placeholder="Images, #tags, @users oh my!"
+                            onChangeText={(text) => this.setState({text})} />
+                <TouchableOpacity onPress={this._searchData}>
+                        <Text>Submit</Text>
+                </TouchableOpacity>
             </View>
         );
     }

@@ -24,7 +24,7 @@ class HomeScreen extends Component {
 
     }
     async getUser() {
-        const response = await axios.get(`https://api.imgur.com/3/account/${this.state.user}`, { headers: { 'Authorization': 'Client-ID 63fe1ea47e0a5ab' } })
+        const response = await axios.get(`https://api.imgur.com/3/account/${this.state.user}`, { headers: { 'Authorization': `Client-ID ${this.state.client_id}` } })
         try {
             this.setState({
                 dataUser: response.data.data
@@ -37,8 +37,7 @@ class HomeScreen extends Component {
     async getUserImg() {
         const response = await axios.get(`https://api.imgur.com/3/account/me/images`, {
             headers: { 'Authorization': `Bearer ${this.state.access_token}` }
-        }
-        )
+        })
         try {
             this.setState({
                 userImgData: response.data.data
