@@ -1,5 +1,8 @@
 import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
 
+import { Platform } from 'react-native';
+import TabBarIcon from '../components/TabBarIcon';
+
 import HomeScreenPage from '../screens/HomeScreen';
 import LoginScreenPage from '../screens/LoginScreen';
 import SettingsScreenPage from '../screens/SettingsScreen';
@@ -12,6 +15,20 @@ const HomeScreenStack = createStackNavigator(
         headerMode: 'none'
     }
 )
+
+HomeScreenStack.navigationOptions = {
+    tabBarLabel: 'Home',
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={
+          Platform.OS === 'ios'
+            ? `ios-information-circle${focused ? '' : '-outline'}`
+            : 'md-information-circle'
+        }
+      />
+    ),
+  };
 
 const LoginScreenStack = createStackNavigator(
     {
@@ -29,6 +46,17 @@ const SettingsScreenStack = createStackNavigator(
         headerMode: 'none'
     }
 )
+
+SettingsScreenStack.navigationOptions = {
+    tabBarLabel: 'Settings',
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options'}
+      />
+    ),
+  };
+  
 
 const Tab = createBottomTabNavigator(
     {

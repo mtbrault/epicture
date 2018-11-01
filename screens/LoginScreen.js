@@ -20,7 +20,7 @@ class LoginScreen extends Component {
     render() {
         return (
             <ImageBackground source={bgImage} style={styles.backgroundContainer}>
-                <TouchableOpacity onPress={this.props.navigation.navigate('HomeScreen')}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('HomeScreen')}>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <Image source={btnButton} />
                     </View>
