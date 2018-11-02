@@ -3,15 +3,18 @@ import axios from "axios";
 
 import {
     View,
-    ScrollView,
     StyleSheet,
-    ImageBackground,
     Image,
-    Text,
-    Dimensions
+    TouchableOpacity,
+    ScrollView,
+    Dimensions,
+    Text
 } from "react-native";
 
-var { height, width } = Dimensions.get('window');
+import HeaderUser from '../components/headerUser';
+import Colors from "../constants/Colors";
+import Icon from 'react-native-vector-icons/AntDesign'
+var { width } = Dimensions.get('window');
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -21,7 +24,6 @@ class HomeScreen extends Component {
         ...this.props.navigation.state.params,
         dataUser: [],
         userImgData: []
-
     }
     async getUser() {
         const response = await axios.get(`https://api.imgur.com/3/account/${this.state.user}`, { headers: { 'Authorization': `Client-ID ${this.state.client_id}` } })
@@ -40,7 +42,8 @@ class HomeScreen extends Component {
         })
         try {
             this.setState({
-                userImgData: response.data.data
+                userImgData: response.data.data,
+                imgCounter: response.data.data.length
             })
         } catch (error) {
             console.log(error);
@@ -51,28 +54,49 @@ class HomeScreen extends Component {
     async componentDidMount() {
         await this.getUser();
         await this.getUserImg();
-        console.log(this.state.dataUser.avatar);
+        console.log(this.state.imgCounter)
+
+    }
+
+    renderMosaic() {
+        var table = [];
+        for (var i = 0; i < this.state.imgCounter; i++) {
+            var count = i;
+            if (i == 0) {
+                count = 1;
+            }
+            table.push(<View key={i} style={{ flex: 1, flexDirection: 'row' }}>
+                {this.state.userImgData.slice(i, 3 * count).map((data, index) => {
+                    console.log("URL: " + data.link + " INDEX: " + index + " IVAL : " + i);
+                    return (
+                        <View key={index + i}>
+                            <Image style={{ width: (width) / 3, height: (width) / 3 }} source={{ uri: data.link }} />
+                        </View>
+                    )
+                })}
+            </View>
+            )
+            i++;
+            i++;
+        }
+
+        return table;
     }
 
     render() {
         return (
-            <View>
-                <View style={styles.container}>
-                    <ImageBackground source={{ uri: this.state.dataUser.cover }} style={styles.backgroundUser}>
-                        <View style={styles.inImage}>
-                            <Image source={{ uri: this.state.dataUser.avatar }} style={styles.avatar}></Image>
-                            <Text style={styles.textFont}>{this.state.user}</Text>
+            <View style={styles.container}>
+                <HeaderUser user={this.state.user} access_token={this.state.access_token} />
+                <ScrollView>
+                    {this.renderMosaic()}
+                </ScrollView>
+                <View style={styles.footerBar}>
+                    <TouchableOpacity>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', padding: 4, backgroundColor: '#1bb76e', borderRadius: 5 }}>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}><Icon name="cloudupload" size={16} /> New post <Icon name="down" size={10} /> </Text>
                         </View>
-                    </ImageBackground>
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                        {this.state.userImgData.map((data, index) => {
-                            return (<View key={index}>
-                                <Image style={{ width: (width) / 3, height: (width) / 3 }} source={{ uri: data.link }} />
-                            </View>)
-                        })}
-                    </View>
+                    </TouchableOpacity>
                 </View>
-
             </View>
         );
     }
@@ -83,7 +107,20 @@ export default HomeScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 24
+        backgroundColor: Colors.tintBackColor
+    },
+    footerBar: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 50,
+        elevation: 5,
+        borderTopWidth: 0,
+        borderTopColor: 'black',
+        borderTopWidth: 1,
+        shadowOffset: { width: 10, height: 10 },
+        shadowColor: 'black',
+        shadowOpacity: 1,
+        backgroundColor: Colors.tintFooter
     },
     containerSecond: {
         flex: 2,

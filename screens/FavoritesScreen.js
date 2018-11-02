@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import HeaderUser from '../components/headerUser';
+import Colors from '../constants/Colors';
 import {
     View,
     StyleSheet,
@@ -7,7 +9,7 @@ import {
     Dimensions
 } from "react-native";
 
-var { height, width } = Dimensions.get('window');
+var { width } = Dimensions.get('window');
 class FavoritesScreen extends Component {
     constructor(props) {
         super(props)
@@ -35,6 +37,8 @@ class FavoritesScreen extends Component {
 
     render() {
         return (
+        <View style={styles.container}>
+            <HeaderUser user={this.state.user} access_token={this.state.access_token}/>
             <View style={{flex: 1, flexDirection: 'row'}}>
                 {this.state.userFavData.map((data, index) => {
                     return (<View key={index}>
@@ -42,6 +46,7 @@ class FavoritesScreen extends Component {
                     </View>)
                 })}
             </View>
+        </View>
         );
     }
 }
@@ -51,8 +56,6 @@ export default FavoritesScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: Colors.tintBackColor
     },
 });

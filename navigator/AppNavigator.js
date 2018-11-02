@@ -3,7 +3,7 @@ import React from 'react';
 import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
 
 import { StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/AntDesign'
 
 import Colors from '../constants/Colors';
 
@@ -26,16 +26,16 @@ const Tab = createBottomTabNavigator({
     Home: {
         screen: HomeScreen,
         navigationOptions: {
-            tabBarLabel: 'HOME',
+            tabBarLabel: 'Home',
             tabBarIcon: ({ tintColor }) => (
-                <Icon name="th-large" color={tintColor} size={24} />
+                <Icon name="home" color={tintColor} size={24} />
             )
         }
     },
     Upload: {
         screen: UploadScreen,
         navigationOptions: {
-            tabBarLabel: 'UPLOAD',
+            tabBarLabel: 'Upload',
             tabBarIcon: ({ tintColor }) => (
                 <Icon name="upload" color={tintColor} size={24} />
             )
@@ -44,29 +44,33 @@ const Tab = createBottomTabNavigator({
     Search: {
         screen: SearchScreen,
         navigationOptions: {
-            tabBarLabel: 'SEARCH',
+            tabBarLabel: 'Search',
             tabBarIcon: ({ tintColor }) => (
-                <Icon name="search" color={tintColor} size={24} />
+                <Icon name="search1" color={tintColor} size={24} />
             )
         }
     },
     Favorites: {
         screen: FavoritesScreen,
         navigationOptions: {
-            tabBarLabel: 'FAVORITES',
+            tabBarLabel: 'Favorites',
             tabBarIcon: ({ tintColor }) => (
-                <Icon name="star" color={tintColor} size={24} />
+                <Icon name="staro" color={tintColor} size={24} />
             )
         }
     }
 },{
     tabBarOptions: {
       activeTintColor: Colors.tintColor,
-      inactiveTintColor: 'grey',
+      inactiveTintColor: '#b3b4b8',
+      labelStyle: {
+        fontSize: 10,
+      },
       style: {
-        backgroundColor: 'white',
+        backgroundColor: '#222327',
         borderTopWidth: 0,
-        
+        borderTopColor: 'black',
+        borderTopWidth: 1,
         shadowOffset: { width: 10, height: 10 },
         shadowColor: 'black',
         shadowOpacity: 1,
