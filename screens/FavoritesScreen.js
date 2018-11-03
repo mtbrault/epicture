@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import HeaderUser from '../components/headerUser';
+import HeaderPage from '../components/headerPage';
 import Colors from '../constants/Colors';
 import {
     View,
@@ -39,7 +39,7 @@ class FavoritesScreen extends Component {
     render() {
         return (
         <View style={styles.container}>
-            <HeaderUser user={this.state.user} access_token={this.state.access_token}/>
+            <HeaderPage user={this.state.user} page={"Favorite Page"} access_token={this.state.access_token} />
             <View style={{flex: 1, flexDirection: 'row'}}>
                 {this.state.userFavData.map((data, index) => {
                     return (<View key={index}>

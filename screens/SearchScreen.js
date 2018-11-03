@@ -73,6 +73,8 @@ class SearchScreen extends Component {
 
     renderMosaic() {
         var table = [];
+        console.log(this.state.images)
+
         for (var i = 0; i < this.state.imgCounter; i++) {
             var count = i;
             if (i == 0) {
@@ -80,20 +82,11 @@ class SearchScreen extends Component {
             }
             table.push(<View key={i} style={{ flex: 1, flexDirection: 'row' }}>
                 {this.state.images.slice(i, 3 * count).map((data, index) => {
-                    if (this.state.images.link !== undefined) {
                         return (
                             <View key={index + i}>
                                 <Image style={{ width: (width) / 3, height: (width) / 3 }} source={{ uri: data.link }} />
                             </View>
                         )
-                    } else {
-
-                        return (
-                            <View key={index + i}>
-                                <Text style={{color: 'white'}}>UNDEFINED</Text>
-                            </View>
-                        )
-                    }
                 })}
             </View>)
 
@@ -115,7 +108,9 @@ class SearchScreen extends Component {
             )
         } else {
             return (
-                <Text style={{ paddingTop: 10, fontWeight: 'bold', fontSize: 20 }}></Text>
+                <View style={{alignContent: 'center', alignItems: 'center'}}>
+                    <Text style={{ paddingTop: 10, fontWeight: 'bold',color: 'white', fontSize: 40 }}>No result.</Text>
+                </View>
             )
         }
     }

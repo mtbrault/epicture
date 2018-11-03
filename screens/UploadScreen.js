@@ -5,7 +5,7 @@ import {
     StyleSheet
 } from "react-native";
 
-import HeaderUser from '../components/headerUser';
+import HeaderPage from '../components/headerPage';
 import Colors from "../constants/Colors";
 
 class UploadScreen extends Component {
@@ -19,7 +19,7 @@ class UploadScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <HeaderUser user={this.state.user} access_token={this.state.access_token} />
+                <HeaderPage user={this.state.user} page={"Upload Page"} access_token={this.state.access_token} />
             </View>
         );
     }
