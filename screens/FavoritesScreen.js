@@ -23,6 +23,7 @@ class FavoritesScreen extends Component {
         const response = await axios.get(`https://api.imgur.com/3/account/${this.state.user}/favorites`,
         {headers: { 'Authorization': `Bearer ${this.state.access_token}`}});
         try {
+            console.log(response)
             this.setState({
                 userFavData: response.data.data
             })

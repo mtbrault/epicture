@@ -54,8 +54,6 @@ class HomeScreen extends Component {
     async componentDidMount() {
         await this.getUser();
         await this.getUserImg();
-        console.log(this.state.imgCounter)
-
     }
 
     renderMosaic() {
@@ -66,16 +64,14 @@ class HomeScreen extends Component {
                 count = 1;
             }
             table.push(<View key={i} style={{ flex: 1, flexDirection: 'row' }}>
-                {this.state.userImgData.slice(i, 3 * count).map((data, index) => {
-                    console.log("URL: " + data.link + " INDEX: " + index + " IVAL : " + i);
-                    return (
-                        <View key={index + i}>
-                            <Image style={{ width: (width) / 3, height: (width) / 3 }} source={{ uri: data.link }} />
-                        </View>
-                    )
-                })}
-            </View>
-            )
+                    {this.state.userImgData.slice(i, 3 * count).map((data, index) => {
+                        return (
+                            <View key={index + i}>
+                                <Image style={{ width: (width) / 3, height: (width) / 3 }} source={{ uri: data.link }} />
+                            </View>
+                        )
+                    })}
+                </View>)
             i++;
             i++;
         }
@@ -93,7 +89,7 @@ class HomeScreen extends Component {
                 <View style={styles.footerBar}>
                     <TouchableOpacity>
                         <View style={{ alignItems: 'center', justifyContent: 'center', padding: 4, backgroundColor: '#1bb76e', borderRadius: 5 }}>
-                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white'}}><Icon name="cloudupload" size={16} /> New post <Icon name="down" size={10} /> </Text>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}><Icon name="cloudupload" size={16} /> New post <Icon name="down" size={10} /> </Text>
                         </View>
                     </TouchableOpacity>
                 </View>
