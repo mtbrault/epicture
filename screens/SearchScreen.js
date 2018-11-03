@@ -90,7 +90,7 @@ class SearchScreen extends Component {
 
                         return (
                             <View key={index + i}>
-                                <Textv style={{color: 'white'}}>UNDEFINED</Text>
+                                <Text style={{color: 'white'}}>UNDEFINED</Text>
                             </View>
                         )
                     }
