@@ -8,7 +8,8 @@ import {
     TouchableOpacity,
     ScrollView,
     Dimensions,
-    Text
+    Text,
+    Modal
 } from "react-native";
 
 import HeaderUser from '../components/headerUser';
@@ -23,7 +24,10 @@ class HomeScreen extends Component {
     state = {
         ...this.props.navigation.state.params,
         dataUser: [],
-        userImgData: []
+        userImgData: [],
+        modalVisible: false,
+        dataForModal: "",
+        linkForModal: ""
     }
     async getUser() {
         const response = await axios.get(`https://api.imgur.com/3/account/${this.state.user}`, { headers: { 'Authorization': `Client-ID ${this.state.client_id}` } })
@@ -50,10 +54,36 @@ class HomeScreen extends Component {
         }
     }
 
+    setModalVisible(visible, data = "", link = "") {
+        this.setState({
+            modalVisible: visible,
+            dataForModal: data,
+            linkForModal: link
+        })
+    }
+
+    favImage(id) {
+        axios.post(`https://api.imgur.com/3/image/${id}/favorite`,
+        {headers: { 'Authorization': `Bearer ${this.state.access_token}`}});
+    }
 
     async componentDidMount() {
         await this.getUser();
         await this.getUserImg();
+    }
+
+    renderModal() {
+        return (
+            <View>
+                <Text>Titre : {this.state.dataForModal.title}</Text>
+                <Image style={{width: (width / 2), height: (width / 2)}} source={{uri: this.state.linkForModal}} />
+                <Text>Nb like : {this.state.dataForModal.views}</Text>
+                <Text>Nb points : {this.state.dataForModal.points}</Text>
+                <TouchableOpacity onPress={() => this.favImage(this.state.dataForModal.id)} >
+                    <Text>Cliquer ici pour mettre en favori</Text>
+                </TouchableOpacity>
+            </View>
+        )
     }
 
     renderMosaic() {
@@ -67,7 +97,9 @@ class HomeScreen extends Component {
                     {this.state.userImgData.slice(i, 3 * count).map((data, index) => {
                         return (
                             <View key={index + i}>
-                                <Image style={{ width: (width) / 3, height: (width) / 3 }} source={{ uri: data.link }} />
+                                <TouchableOpacity onPress={() => this.setModalVisible(true, data, data.link)}>
+                                    <Image style={{ width: (width) / 3, height: (width) / 3 }} source={{ uri: data.link }} />
+                                </TouchableOpacity>
                             </View>
                         )
                     })}
@@ -93,6 +125,17 @@ class HomeScreen extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
+                <Modal
+                animationType="slide"
+                transparent={false}
+                visible={this.state.modalVisible}>
+                    <View style={{marginTop: 100}}>
+                        <TouchableOpacity onPress={() => this.setModalVisible(false)}>
+                            <Text>Clique ici pour quitter. Ce serait cool de mettre un icone croix</Text>
+                        </TouchableOpacity>
+                        {this.renderModal()}
+                    </View>
+                </Modal>
             </View>
         );
     }
