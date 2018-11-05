@@ -13,11 +13,11 @@ import {
     Dimensions
 } from "react-native";
 
+import Video from 'react-native-video';
 import Icon from 'react-native-vector-icons/AntDesign'
 import ClientID from '../constants/apiInfo';
 import Colors from '../constants/Colors';
 import HeaderPage from '../components/headerPage';
-import bgImage from '../assets/Login/background.jpg';
 
 var { width } = Dimensions.get('window');
 
@@ -44,7 +44,7 @@ class SearchScreen extends Component {
     }
 
     searchText() {
-        axios.get('https://api.imgur.com/3/gallery/search/viral/day/1?q=' + this.state.curText,
+        axios.get('https://api.imgur.com/3/gallery/search/time/month/1?q=' + this.state.curText,
             {
                 headers: { 'Authorization': `Client-ID ${ClientID.clientID}` }
             }).then(imgData => {
@@ -73,20 +73,25 @@ class SearchScreen extends Component {
 
     renderMosaic() {
         var table = [];
-        console.log(this.state.images)
 
-        for (var i = 0; i < this.state.imgCounter; i++) {
+        for (var i = 0 ; i < 30 ; i++) {
             var count = i;
             if (i == 0) {
                 count = 1;
             }
             table.push(<View key={i} style={{ flex: 1, flexDirection: 'row' }}>
                 {this.state.images.slice(i, 3 * count).map((data, index) => {
-                        return (
-                            <View key={index + i}>
-                                <Image style={{ width: (width) / 3, height: (width) / 3 }} source={{ uri: data.link }} />
-                            </View>
-                        )
+                    if (data && data.link.length > 2) {
+                        let extension = data.link.split('.').pop();
+                        if (extension == "jpg" || extension == "gif") {
+                            return (
+                                <View key={index + i}>
+                                    <Image style={{ width: (width) / 3, height: (width) / 3 }} source={{ uri: data.link }} />
+                                </View>
+                            )
+                        }
+
+                    }
                 })}
             </View>)
 
@@ -99,7 +104,7 @@ class SearchScreen extends Component {
     }
 
     renderSecondPart() {
-        console.log(this.state.imgCounter);
+
         if (this.state.imgCounter != 0) {
             return (
                 <ScrollView>
@@ -108,8 +113,8 @@ class SearchScreen extends Component {
             )
         } else {
             return (
-                <View style={{alignContent: 'center', alignItems: 'center'}}>
-                    <Text style={{ paddingTop: 10, fontWeight: 'bold',color: 'white', fontSize: 40 }}>No result.</Text>
+                <View style={{ alignContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ paddingTop: 10, fontWeight: 'bold', color: 'white', fontSize: 40 }}>No result.</Text>
                 </View>
             )
         }
