@@ -77,7 +77,7 @@ class HomeScreen extends Component {
             <View>
                 <Text>Titre : {this.state.dataForModal.title}</Text>
                 <Image style={{width: (width / 2), height: (width / 2)}} source={{uri: this.state.linkForModal}} />
-                <Text>Nb like : {this.state.dataForModal.views}</Text>
+                <Text>Nb vues : {this.state.dataForModal.views}</Text>
                 <Text>Nb points : {this.state.dataForModal.points}</Text>
                 <TouchableOpacity onPress={() => this.favImage(this.state.dataForModal.id)} >
                     <Text>Cliquer ici pour mettre en favori</Text>
