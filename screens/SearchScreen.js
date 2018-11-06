@@ -10,10 +10,11 @@ import {
     Text,
     ScrollView,
     Image,
-    Dimensions
+    Dimensions,
+    Picker
 } from "react-native";
 
-import Video from 'react-native-video';
+
 import Icon from 'react-native-vector-icons/AntDesign'
 import ClientID from '../constants/apiInfo';
 import Colors from '../constants/Colors';
@@ -29,11 +30,14 @@ class SearchScreen extends Component {
             access_token: "c513b70b97c5abd633860b8e732a590d9fab3078",
             curText: '',
             images: [],
-            imgCounter: 0
+            imgCounter: 0,
+            filterTime: 'top',
+            filterHot: 'time'
         }
         this.searchText = this.searchText.bind(this);
         this.updateText = this.updateText.bind(this);
         this.execSearch = this.execSearch.bind(this);
+        this.updateFilterHot = this.updateFilterHot.bind(this);
     }
 
     componentWillMount() {
@@ -44,7 +48,7 @@ class SearchScreen extends Component {
     }
 
     searchText() {
-        axios.get('https://api.imgur.com/3/gallery/search/time/month/1?q=' + this.state.curText,
+        axios.get(`https://api.imgur.com/3/gallery/search/${this.state.filterHot}/month/1?q=` + this.state.curText,
             {
                 headers: { 'Authorization': `Client-ID ${ClientID.clientID}` }
             }).then(imgData => {
@@ -60,6 +64,7 @@ class SearchScreen extends Component {
 
     }
 
+
     updateText(event) {
         this.setState({
             curText: event.nativeEvent.text
@@ -71,10 +76,17 @@ class SearchScreen extends Component {
         this.render(this.renderSecondPart());
     }
 
+    updateFilterHot(value, index) {
+        this.setState({
+            filterHot: value
+        })
+        this.execSearch();
+    }
+
     renderMosaic() {
         var table = [];
 
-        for (var i = 0 ; i < 30 ; i++) {
+        for (var i = 0; i < 30; i++) {
             var count = i;
             if (i == 0) {
                 count = 1;
@@ -149,6 +161,18 @@ class SearchScreen extends Component {
                     </View>
                 </View>
                 {this.renderSecondPart()}
+                <View style={styles.footerBar}>
+                    <Picker
+                        style={{ color: 'white', width: '100%' }}
+                        itemStyle={{color: 'white', fontWeight: 'bold', fontSize: 15}}
+                        selectedValue={this.state.filterHot}
+                        onValueChange={this.updateFilterHot}
+                    >
+                        <Picker.Item label="Sort by Time" value="time" />
+                        <Picker.Item label="Sort by Viral" value="viral" />
+                        <Picker.Item label="Sort by Top" value="top" />
+                    </Picker>
+                </View>
             </View>
         );
     }
@@ -160,5 +184,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.tintBackColor
+    },
+    footerBar: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 50,
+        elevation: 5,
+        borderTopWidth: 0,
+        borderTopColor: 'black',
+        borderTopWidth: 1,
+        shadowOffset: { width: 10, height: 10 },
+        shadowColor: 'black',
+        shadowOpacity: 1,
+        backgroundColor: Colors.tintFooter
     },
 });
