@@ -12,7 +12,6 @@ import { ImagePicker } from 'expo';
 
 import HeaderPage from '../components/headerPage';
 import Colors from "../constants/Colors";
-import apiInfo from "../constants/apiInfo"
 
 class UploadScreen extends Component {
     constructor(props) {

@@ -24,6 +24,7 @@ class LoginScreen extends Component {
         return (
             <ImageBackground source={bgImage} style={styles.backgroundContainer}>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Home', {user: this.state.user, access_token: this.state.access_token, client_id: this.state.client_id})}>
+                {/* <TouchableOpacity onPress={this._handlePressButtonAsync}> */}
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <Image source={btnButton} />
                     </View>
@@ -33,7 +34,7 @@ class LoginScreen extends Component {
     }
 
     _handlePressButtonAsync = async () => {
-        let result = await WebBrowser.openAuthSessionAsync('https://api.imgur.com/oauth2/authorize?client_id=63fe1ea47e0a5ab&response_type=token');
+        let result = await WebBrowser.openAuthSessionAsync(`https://api.imgur.com/oauth2/authorize?client_id=${this.state.client_id}&response_type=token`);
         console.log(result);
     };
 }
