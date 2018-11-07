@@ -11,7 +11,9 @@ import {
     ScrollView,
     Image,
     Dimensions,
-    Picker
+    Picker,
+    Modal,
+    TouchableOpacity
 } from "react-native";
 
 
@@ -19,6 +21,9 @@ import Icon from 'react-native-vector-icons/AntDesign'
 import ClientID from '../constants/apiInfo';
 import Colors from '../constants/Colors';
 import HeaderPage from '../components/headerPage';
+import {Video} from "expo"
+import Icon2 from 'react-native-vector-icons/Entypo'
+import Octicons from 'react-native-vector-icons/Octicons'
 
 var { width } = Dimensions.get('window');
 
@@ -32,7 +37,11 @@ class SearchScreen extends Component {
             images: [],
             imgCounter: 0,
             filterTime: 'top',
-            filterHot: 'time'
+            filterHot: 'time',
+            modalVisible: false,
+            dataForModal: "",
+            linkForModal: "",
+            isMuted: true
         }
         this.searchText = this.searchText.bind(this);
         this.updateText = this.updateText.bind(this);
@@ -83,6 +92,41 @@ class SearchScreen extends Component {
         this.execSearch();
     }
 
+    setModalVisible(visible, data = "", link = "") {
+        console.log(data);
+        this.setState({
+            modalVisible: visible,
+            dataForModal: data,
+            linkForModal: link
+        })
+    }
+
+    setMute(value) {
+        this.setState({
+            isMuted: value
+        })
+    }
+
+    renderIcon() {
+        if (this.state.isMuted == true) {
+            return (
+                <View>
+                    <TouchableOpacity onPress={() => this.setMute(false)}>
+                        <Octicons name="mute" size={25}/>
+                    </TouchableOpacity>
+                </View>
+            )
+        } else {
+            return (
+                <View>
+                    <TouchableOpacity onPress={() => this.setMute(true)}>
+                        <Octicons name="unmute" size={25}/>
+                    </TouchableOpacity>
+                </View>
+            )
+        }
+    }
+
     renderMosaic() {
         var table = [];
 
@@ -94,11 +138,21 @@ class SearchScreen extends Component {
             table.push(<View key={i} style={{ flex: 1, flexDirection: 'row' }}>
                 {this.state.images.slice(i, 3 * count).map((data, index) => {
                     if (data && data.link.length > 2) {
-                        let extension = data.link.split('.').pop();
-                        if (extension == "jpg" || extension == "gif") {
+                        if (data.link.split(-4) != ".mp4") {
                             return (
                                 <View key={index + i}>
-                                    <Image style={{ width: (width) / 3, height: (width) / 3 }} source={{ uri: data.link }} />
+                                    <TouchableOpacity onPress={() => this.setModalVisible(true, data, data.link)}>
+                                        <Image style={{ width: (width) / 3, height: (width) / 3 }} source={{ uri: data.link }} />
+                                    </TouchableOpacity>
+                                </View>
+                            )
+                        }
+                        else {
+                            return (
+                                <View key={index + i}>
+                                    <TouchableOpacity onPress={() => this.setModalVisible(true, data, data.link)}>
+                                        <Video style={{ width: (width / 3), height: (width / 3)}} rate={1.0} isMuted={true} isLooping shouldPlay source= {{uri: data.link }} />
+                                    </TouchableOpacity>
                                 </View>
                             )
                         }
@@ -113,6 +167,40 @@ class SearchScreen extends Component {
 
         return table;
 
+    }
+
+    renderLinkContent(link) {
+        if (link.slice(-4) == ".mp4") {
+            return (
+                <View>
+                    {this.renderIcon()}
+                    <Video style={{ width: (width / 3), height: (width / 3)}} rate={1.0} isMuted={!this.state.isMuted} isLooping shouldPlay source= {{uri: link }} />
+                </View>
+            )
+        } else {
+            return (
+                <View>
+                    <Image style={{width: (width / 2), height: (width / 2)}} source={{uri: link}} />
+                </View>
+            )
+        }
+    }
+
+    renderModal() {
+        return (
+            <View style={{marginTop: 100}}>
+                <TouchableOpacity onPress={() => this.setModalVisible(false)}>
+                    <Icon2 name="cross" size={25} style={{marginLeft: 350}}/>
+                </TouchableOpacity>
+                <Text>Titre : {this.state.dataForModal.title}</Text>
+                {this.renderLinkContent(this.state.linkForModal)}
+                <Text>Nb vues : {this.state.dataForModal.views}</Text>
+                <Text>Nb points : {this.state.dataForModal.points}</Text>
+                <TouchableOpacity onPress={() => this.favImage(this.state.dataForModal.id)} >
+                    <Text>Cliquer ici pour mettre en favori</Text>
+                </TouchableOpacity>
+            </View>
+        )
     }
 
     renderSecondPart() {
@@ -163,7 +251,7 @@ class SearchScreen extends Component {
                 {this.renderSecondPart()}
                 <View style={styles.footerBar}>
                     <Picker
-                        style={{ color: 'white', width: '100%' }}
+                        style={{ width: '100%' }}
                         itemStyle={{color: 'white', fontWeight: 'bold', fontSize: 15}}
                         selectedValue={this.state.filterHot}
                         onValueChange={this.updateFilterHot}
@@ -173,6 +261,12 @@ class SearchScreen extends Component {
                         <Picker.Item label="Sort by Top" value="top" />
                     </Picker>
                 </View>
+                <Modal
+                animationType="slide"
+                transparent={false}
+                visible={this.state.modalVisible}>
+                    {this.renderModal()}
+                </Modal>
             </View>
         );
     }

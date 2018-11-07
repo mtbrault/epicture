@@ -12,7 +12,7 @@ import {
     Modal,
     TouchableOpacity
 } from "react-native";
-import Video from "react-native-video";
+import { Video }from "expo";
 
 var { width } = Dimensions.get('window');
 class FavoritesScreen extends Component {
@@ -64,13 +64,23 @@ class FavoritesScreen extends Component {
                         link = data.images[0].link;
                     else
                         link = data.link;
-                    return (
-                        <View key={index + i}>
-                            <TouchableOpacity onPress={() => this.setModalVisible(true, data, link)}>
-                                <Image style={{ width: (width / 3), height: (width / 3)}} source= {{uri: link }} />
-                            </TouchableOpacity>
-                        </View>
-                    )
+                    if (link.slice(-4) == ".mp4") {
+                        return (
+                            <View key={index + i}>
+                                <TouchableOpacity onPress={() => this.setModalVisible(true, data, link)}>
+                                    <Video style={{ width: (width / 3), height: (width / 3)}} rate={1.0} isMuted={true} isLooping shouldPlay source= {{uri: link }} />
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    } else {
+                        return (
+                            <View key={index + i}>
+                                <TouchableOpacity onPress={() => this.setModalVisible(true, data, link)}>
+                                    <Image style={{ width: (width / 3), height: (width / 3)}} source= {{uri: link }} />
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    }
                 })}
             </View>)
             i += 2;
