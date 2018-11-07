@@ -72,7 +72,11 @@ class SearchScreen extends Component {
             });
 
     }
-
+    
+    favImage(id) {
+        axios.post(`https://api.imgur.com/3/image/${id}/favorite`, {},
+        {headers: { 'Authorization': `Bearer ${this.state.access_token}`}});
+    }
 
     updateText(event) {
         this.setState({

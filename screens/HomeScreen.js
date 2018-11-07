@@ -68,7 +68,7 @@ class HomeScreen extends Component {
     }
 
     favImage(id) {
-        axios.post(`https://api.imgur.com/3/image/${id}/favorite`,
+        axios.post(`https://api.imgur.com/3/image/${id}/favorite`, {},
         {headers: { 'Authorization': `Bearer ${this.state.access_token}`}});
     }
 

@@ -13,6 +13,8 @@ import {
     TouchableOpacity
 } from "react-native";
 import { Video }from "expo";
+import Icon2 from 'react-native-vector-icons/Entypo'
+import Octicons from 'react-native-vector-icons/Octicons'
 
 var { width } = Dimensions.get('window');
 class FavoritesScreen extends Component {
@@ -24,7 +26,8 @@ class FavoritesScreen extends Component {
         access_token: "c513b70b97c5abd633860b8e732a590d9fab3078",
         modalVisible: false,
         dataForModal: "",
-        linkForModal: ""
+        linkForModal: "",
+        isMuted: true
     }
     async getUserFav() {
         const response = await axios.get(`https://api.imgur.com/3/account/${this.state.user}/favorites`,
@@ -88,13 +91,67 @@ class FavoritesScreen extends Component {
         return table;
     }
 
+    setMute(value) {
+        this.setState({
+            isMuted: value
+        })
+    }
+
+    renderIcon() {
+        if (this.state.isMuted == true) {
+            return (
+                <View>
+                    <TouchableOpacity onPress={() => this.setMute(false)}>
+                        <Octicons name="mute" size={25}/>
+                    </TouchableOpacity>
+                </View>
+            )
+        } else {
+            return (
+                <View>
+                    <TouchableOpacity onPress={() => this.setMute(true)}>
+                        <Octicons name="unmute" size={25}/>
+                    </TouchableOpacity>
+                </View>
+            )
+        }
+    }
+
+    renderLinkContent(link) {
+        if (link.slice(-4) == ".mp4") {
+            return (
+                <View>
+                    {this.renderIcon()}
+                    <Video style={{ width: (width / 3), height: (width / 3)}} rate={1.0} isMuted={!this.state.isMuted} isLooping shouldPlay source= {{uri: link }} />
+                </View>
+            )
+        } else {
+            return (
+                <View>
+                    <Image style={{width: (width / 2), height: (width / 2)}} source={{uri: link}} />
+                </View>
+            )
+        }
+    }
+
+    unfav(id) {
+        axios.post(`https://api.imgur.com/3/image/${id}/favorite`, {},
+        {headers: { 'Authorization': `Bearer ${this.state.access_token}`}});
+    }
+
     renderModal() {
         return (
             <View>
+                <TouchableOpacity onPress={() => this.setModalVisible(false)}>
+                    <Icon2 name="cross" size={25} style={{marginLeft: 350}} />
+                </TouchableOpacity>
                 <Text>Titre : {this.state.dataForModal.title}</Text>
-                <Image style={{width: (width  - 50), height: (width  - 50)}} source={{uri: this.state.linkForModal}} />
+                {this.renderLinkContent(this.state.linkForModal)}
                 <Text>Nb vues : {this.state.dataForModal.views}</Text>
                 <Text>Nb points : {this.state.dataForModal.points}</Text>
+                <TouchableOpacity onPress={() => this.unfav(this.state.dataForModal.id)}>
+                    <Text>Supprimer des favoris</Text>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -111,9 +168,6 @@ class FavoritesScreen extends Component {
             transparent={false}
             visible={this.state.modalVisible}>
                 <View style={{marginTop: 100}}>
-                    <TouchableOpacity onPress={() => this.setModalVisible(false)}>
-                        <Text>Clique ici pour quitter. Ce serait cool de mettre un icone croix</Text>
-                    </TouchableOpacity>
                     {this.renderModal()}
                 </View>
             </Modal>
