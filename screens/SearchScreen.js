@@ -45,6 +45,7 @@ class SearchScreen extends Component {
         this.updateText = this.updateText.bind(this);
         this.execSearch = this.execSearch.bind(this);
         this.updateFilterHot = this.updateFilterHot.bind(this);
+        this.setModalVisible = this.setModalVisible.bind(this)
     }
 
     componentWillMount() {

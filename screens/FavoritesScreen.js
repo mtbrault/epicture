@@ -3,7 +3,6 @@ import axios from "axios";
 import HeaderPage from '../components/headerPage';
 import Colors from '../constants/Colors';
 import {
-    Text,
     View,
     StyleSheet,
     Image,
@@ -92,11 +91,6 @@ class FavoritesScreen extends Component {
             i += 2;
         }
         return table;
-    }
-
-    unfav(id) {
-        axios.post(`https://api.imgur.com/3/image/${id}/favorite`, {},
-            { headers: { 'Authorization': `Bearer ${this.state.access_token}` } });
     }
 
     renderModal() {

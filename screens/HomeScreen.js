@@ -21,6 +21,7 @@ var { width } = Dimensions.get('window');
 class HomeScreen extends Component {
     constructor(props) {
         super(props)
+        this.setModalVisible = this.setModalVisible.bind(this) 
     }
     state = {
         ...this.props.navigation.state.params,

@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from "axios";
 import {
     Text,
     Dimensions,
@@ -11,7 +12,6 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import AudioIcon from 'react-native-vector-icons/Octicons'
 
 import { Video } from "expo";
-const { width } = Dimensions.get('window').width;
 class ImageZoom extends React.PureComponent {
     constructor(props) {
         super(props)
@@ -21,6 +21,10 @@ class ImageZoom extends React.PureComponent {
         }
         this.setFavorite = this.setFavorite.bind(this);
         this.setMuted = this.setMuted.bind(this);
+        console.log(this.props.data);
+        if (!this.props.data.points) {
+            this.props.data.points = 0;
+        }
     }
     componentDidMount() {
         if (this.props.isFavo) {
@@ -29,15 +33,23 @@ class ImageZoom extends React.PureComponent {
             })
         }
     }
+
+    setFavAPI(id) {
+        axios.post(`https://api.imgur.com/3/image/${id}/favorite`, {},
+            { headers: { 'Authorization': `Bearer ${this.state.access_token}` } });
+    }
+
     setFavorite() {
         if (this.state.favoriteSet) {
             this.setState({
                 favoriteSet: false
             })
+            this.setFavAPI(this.props.data.id);
         } else {
             this.setState({
                 favoriteSet: true
             })
+            this.setFavAPI(this.props.data.id);
         }
     }
 
@@ -56,7 +68,7 @@ class ImageZoom extends React.PureComponent {
     renderLinkContent(link) {
         if (link.slice(-4) == ".mp4") {
             return (
-                <Video style={{ width: (width / 3), height: (width / 3) }} rate={1.0} isMuted={this.state.isMuted} isLooping shouldPlay source={{ uri: link }} />
+                <Video style={{ width: (Dimensions.get('window').width / 3), height: (Dimensions.get('window').width / 3) }} rate={1.0} isMuted={this.state.isMuted} isLooping shouldPlay source={{ uri: link }} />
             )
         } else {
             return (
@@ -121,7 +133,7 @@ const styles = StyleSheet.create({
     },
     imageZoomStyle: {
         padding: 50,
-        width: width,
+        width: Dimensions.get('window').width,
         height: Dimensions.get('window').height - 200
     }
 })
