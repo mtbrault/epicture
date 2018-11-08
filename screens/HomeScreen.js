@@ -17,7 +17,7 @@ import Colors from "../constants/Colors";
 import Icon from 'react-native-vector-icons/AntDesign'
 import Icon2 from 'react-native-vector-icons/Entypo'
 import Octicons from 'react-native-vector-icons/Octicons'
-import {Video} from "expo"
+import { Video } from "expo"
 
 var { width } = Dimensions.get('window');
 
@@ -68,8 +68,8 @@ class HomeScreen extends Component {
     }
 
     favImage(id) {
-        axios.post(`https://api.imgur.com/3/image/${id}/favorite`,
-        {headers: { 'Authorization': `Bearer ${this.state.access_token}`}});
+        axios.post(`https://api.imgur.com/3/image/${id}/favorite`, {},
+            { headers: { 'Authorization': `Bearer ${this.state.access_token}` } });
     }
 
     async componentDidMount() {
@@ -88,7 +88,7 @@ class HomeScreen extends Component {
             return (
                 <View>
                     <TouchableOpacity onPress={() => this.setMute(false)}>
-                        <Octicons name="mute" size={25}/>
+                        <Octicons name="mute" size={25} />
                     </TouchableOpacity>
                 </View>
             )
@@ -96,7 +96,7 @@ class HomeScreen extends Component {
             return (
                 <View>
                     <TouchableOpacity onPress={() => this.setMute(true)}>
-                        <Octicons name="unmute" size={25}/>
+                        <Octicons name="unmute" size={25} />
                     </TouchableOpacity>
                 </View>
             )
@@ -108,23 +108,23 @@ class HomeScreen extends Component {
             return (
                 <View>
                     {this.renderIcon()}
-                    <Video style={{ width: (width / 3), height: (width / 3)}} rate={1.0} isMuted={!this.state.isMuted} isLooping shouldPlay source= {{uri: link }} />
+                    <Video style={{ width: (width / 3), height: (width / 3) }} rate={1.0} isMuted={!this.state.isMuted} isLooping shouldPlay source={{ uri: link }} />
                 </View>
             )
         } else {
             return (
                 <View>
-                    <Image style={{width: (width / 2), height: (width / 2)}} source={{uri: link}} />
+                    <Image style={{ width: (width / 2), height: (width / 2) }} source={{ uri: link }} />
                 </View>
             )
         }
     }
 
-    renderModal() { 
+    renderModal() {
         return (
-            <View style={{marginTop: 100}}>
+            <View style={{ marginTop: 100 }}>
                 <TouchableOpacity onPress={() => this.setModalVisible(false)}>
-                    <Icon2 name="cross" size={25} style={{marginLeft: 350}}/>
+                    <Icon2 name="cross" size={25} style={{ marginLeft: 350 }} />
                 </TouchableOpacity>
                 <Text>Titre : {this.state.dataForModal.title}</Text>
                 {this.renderLinkContent(this.state.linkForModal)}
@@ -145,26 +145,26 @@ class HomeScreen extends Component {
                 count = 1;
             }
             table.push(<View key={i} style={{ flex: 1, flexDirection: 'row' }}>
-                    {this.state.userImgData.slice(i, 3 * count).map((data, index) => {
-                        if (data.link.slice(-4) == ".mp4") {
-                            return (
-                                <View key={index + i}>
-                                    <TouchableOpacity onPress={() => this.setModalVisible(true, data, data.link)}>
-                                        <Video style={{ width: (width / 3), height: (width / 3)}} rate={1.0} isMuted={this.state.isMuted} isLooping shouldPlay source= {{uri: data.link }} />
-                                    </TouchableOpacity>
-                                </View>
-                            )
-                        } else {
-                            return (
-                                <View key={index + i}>
-                                    <TouchableOpacity onPress={() => this.setModalVisible(true, data, data.link)}>
-                                        <Image style={{ width: (width) / 3, height: (width) / 3 }} source={{ uri: data.link }} />
-                                    </TouchableOpacity>
-                                </View>
-                            )
-                        }
-                    })}
-                </View>)
+                {this.state.userImgData.slice(i, 3 * count).map((data, index) => {
+                    if (data.link.slice(-4) == ".mp4") {
+                        return (
+                            <View key={index + i}>
+                                <TouchableOpacity onPress={() => this.setModalVisible(true, data, data.link)}>
+                                    <Video style={{ width: (width / 3), height: (width / 3) }} rate={1.0} isMuted={this.state.isMuted} isLooping shouldPlay source={{ uri: data.link }} />
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    } else {
+                        return (
+                            <View key={index + i}>
+                                <TouchableOpacity onPress={() => this.setModalVisible(true, data, data.link)}>
+                                    <Image style={{ width: (width) / 3, height: (width) / 3 }} source={{ uri: data.link }} />
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    }
+                })}
+            </View>)
             i++;
             i++;
         }
@@ -179,18 +179,13 @@ class HomeScreen extends Component {
                 <ScrollView>
                     {this.renderMosaic()}
                 </ScrollView>
-                <View style={styles.footerBar}>
-                    <TouchableOpacity>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', padding: 4, backgroundColor: '#1bb76e', borderRadius: 5 }}>
-                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}><Icon name="cloudupload" size={16} /> New post <Icon name="down" size={10} /> </Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
                 <Modal
-                animationType="slide"
-                transparent={false}
-                visible={this.state.modalVisible}>
-                        {this.renderModal()}
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => { }}
+                >
+                    {this.renderModal()}
                 </Modal>
             </View>
         );
@@ -204,38 +199,4 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.tintBackColor
     },
-    footerBar: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 50,
-        elevation: 5,
-        borderTopWidth: 0,
-        borderTopColor: 'black',
-        borderTopWidth: 1,
-        shadowOffset: { width: 10, height: 10 },
-        shadowColor: 'black',
-        shadowOpacity: 1,
-        backgroundColor: Colors.tintFooter
-    },
-    containerSecond: {
-        flex: 2,
-        backgroundColor: 'gray',
-    },
-    textFont: {
-        fontWeight: 'bold',
-        color: '#fff'
-    },
-    inImage: {
-        alignItems: 'center',
-        marginTop: 15
-    },
-    backgroundUser: {
-        height: 130,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    avatar: {
-        borderRadius: 35, width: 70, height: 70,
-        borderWidth: 1
-    }
 });

@@ -264,7 +264,9 @@ class SearchScreen extends Component {
                 <Modal
                 animationType="slide"
                 transparent={false}
-                visible={this.state.modalVisible}>
+                visible={this.state.modalVisible}
+                onRequestClose={() => {}}
+                >
                     {this.renderModal()}
                 </Modal>
             </View>

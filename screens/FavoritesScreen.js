@@ -12,13 +12,15 @@ import {
     Modal,
     TouchableOpacity
 } from "react-native";
+import ImageZoom from '../components/imageZoom';
 
-import { Video, Constants } from "expo";
-
+import { Video } from "expo";
 var { width } = Dimensions.get('window');
+
 class FavoritesScreen extends Component {
     constructor(props) {
         super(props)
+        this.setModalVisible = this.setModalVisible.bind(this)
     }
 
     state = {
@@ -26,7 +28,8 @@ class FavoritesScreen extends Component {
         access_token: "c513b70b97c5abd633860b8e732a590d9fab3078",
         modalVisible: false,
         dataForModal: "",
-        linkForModal: ""
+        linkForModal: "",
+        isMuted: true
     }
 
     async getUserFav() {
@@ -91,20 +94,14 @@ class FavoritesScreen extends Component {
         return table;
     }
 
-    renderModal() {
+    unfav(id) {
+        axios.post(`https://api.imgur.com/3/image/${id}/favorite`, {},
+            { headers: { 'Authorization': `Bearer ${this.state.access_token}` } });
+    }
 
+    renderModal() {
         return (
-            // <View>
-            //     <Text style={{color: 'white', textAlign: 'center'}}>Titre : {this.state.dataForModal.title}</Text>
-                <Image style={{
-                    borderWidth: 1,
-                    borderColor: 'black',
-                    flex: 1,
-                    alignSelf: 'stretch'
-                }} source={{ uri: this.state.linkForModal }} />
-            //     {/* <Text>Nb vues : {this.state.dataForModal.views}</Text>
-            //     <Text>Nb points : {this.state.dataForModal.points}</Text>
-            // </View> */}
+            <ImageZoom link={this.state.linkForModal} data={this.state.dataForModal} isFavo={true} setModalVisible={this.setModalVisible} />
         )
     }
 
@@ -115,16 +112,8 @@ class FavoritesScreen extends Component {
                 <ScrollView>
                     {this.renderMosaic()}
                 </ScrollView>
-                <Modal
-                    animationType="slide"
-                    transparent={false}
-                    visible={this.state.modalVisible}>
-                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: Constants.statusBarHeight, backgroundColor: Colors.tintBackColor}}>
-                        <TouchableOpacity onPress={() => this.setModalVisible(false)}>
-                            <Text>Clique ici pour quitter. Ce serait cool de mettre un icone croix</Text>
-                        </TouchableOpacity>
-                        {this.renderModal()}
-                    </View>
+                <Modal animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => { }}>
+                    {this.renderModal()}
                 </Modal>
             </View>
         );
