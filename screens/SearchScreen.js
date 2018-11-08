@@ -16,15 +16,13 @@ import {
     TouchableOpacity
 } from "react-native";
 
-
 import Icon from 'react-native-vector-icons/AntDesign'
 import ClientID from '../constants/apiInfo';
 import Colors from '../constants/Colors';
 import HeaderPage from '../components/headerPage';
-import {Video} from "expo"
-import Icon2 from 'react-native-vector-icons/Entypo'
-import Octicons from 'react-native-vector-icons/Octicons'
+import ImageZoom from '../components/imageZoom';
 
+import { Video } from "expo"
 var { width } = Dimensions.get('window');
 
 class SearchScreen extends Component {
@@ -73,7 +71,6 @@ class SearchScreen extends Component {
 
     }
 
-
     updateText(event) {
         this.setState({
             curText: event.nativeEvent.text
@@ -101,35 +98,8 @@ class SearchScreen extends Component {
         })
     }
 
-    setMute(value) {
-        this.setState({
-            isMuted: value
-        })
-    }
-
-    renderIcon() {
-        if (this.state.isMuted == true) {
-            return (
-                <View>
-                    <TouchableOpacity onPress={() => this.setMute(false)}>
-                        <Octicons name="mute" size={25}/>
-                    </TouchableOpacity>
-                </View>
-            )
-        } else {
-            return (
-                <View>
-                    <TouchableOpacity onPress={() => this.setMute(true)}>
-                        <Octicons name="unmute" size={25}/>
-                    </TouchableOpacity>
-                </View>
-            )
-        }
-    }
-
     renderMosaic() {
         var table = [];
-
         for (var i = 0; i < 30; i++) {
             var count = i;
             if (i == 0) {
@@ -151,7 +121,7 @@ class SearchScreen extends Component {
                             return (
                                 <View key={index + i}>
                                     <TouchableOpacity onPress={() => this.setModalVisible(true, data, data.link)}>
-                                        <Video style={{ width: (width / 3), height: (width / 3)}} rate={1.0} isMuted={true} isLooping shouldPlay source= {{uri: data.link }} />
+                                        <Video style={{ width: (width / 3), height: (width / 3) }} rate={1.0} isMuted={true} isLooping shouldPlay source={{ uri: data.link }} />
                                     </TouchableOpacity>
                                 </View>
                             )
@@ -164,47 +134,16 @@ class SearchScreen extends Component {
             i++;
             i++;
         }
-
         return table;
-
-    }
-
-    renderLinkContent(link) {
-        if (link.slice(-4) == ".mp4") {
-            return (
-                <View>
-                    {this.renderIcon()}
-                    <Video style={{ width: (width / 3), height: (width / 3)}} rate={1.0} isMuted={!this.state.isMuted} isLooping shouldPlay source= {{uri: link }} />
-                </View>
-            )
-        } else {
-            return (
-                <View>
-                    <Image style={{width: (width / 2), height: (width / 2)}} source={{uri: link}} />
-                </View>
-            )
-        }
     }
 
     renderModal() {
         return (
-            <View style={{marginTop: 100}}>
-                <TouchableOpacity onPress={() => this.setModalVisible(false)}>
-                    <Icon2 name="cross" size={25} style={{marginLeft: 350}}/>
-                </TouchableOpacity>
-                <Text>Titre : {this.state.dataForModal.title}</Text>
-                {this.renderLinkContent(this.state.linkForModal)}
-                <Text>Nb vues : {this.state.dataForModal.views}</Text>
-                <Text>Nb points : {this.state.dataForModal.points}</Text>
-                <TouchableOpacity onPress={() => this.favImage(this.state.dataForModal.id)} >
-                    <Text>Cliquer ici pour mettre en favori</Text>
-                </TouchableOpacity>
-            </View>
+            <ImageZoom link={this.state.linkForModal} data={this.state.dataForModal} isFavo={false} setModalVisible={this.setModalVisible} />
         )
     }
 
     renderSecondPart() {
-
         if (this.state.imgCounter != 0) {
             return (
                 <ScrollView>
@@ -252,7 +191,7 @@ class SearchScreen extends Component {
                 <View style={styles.footerBar}>
                     <Picker
                         style={{ width: '100%' }}
-                        itemStyle={{color: 'white', fontWeight: 'bold', fontSize: 15}}
+                        itemStyle={{ color: 'white', fontWeight: 'bold', fontSize: 15 }}
                         selectedValue={this.state.filterHot}
                         onValueChange={this.updateFilterHot}
                     >
@@ -261,12 +200,7 @@ class SearchScreen extends Component {
                         <Picker.Item label="Sort by Top" value="top" />
                     </Picker>
                 </View>
-                <Modal
-                animationType="slide"
-                transparent={false}
-                visible={this.state.modalVisible}
-                onRequestClose={() => {}}
-                >
+                <Modal animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => { }}>
                     {this.renderModal()}
                 </Modal>
             </View>

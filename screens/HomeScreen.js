@@ -8,17 +8,14 @@ import {
     TouchableOpacity,
     ScrollView,
     Dimensions,
-    Text,
     Modal
 } from "react-native";
 
 import HeaderUser from '../components/headerUser';
 import Colors from "../constants/Colors";
-import Icon from 'react-native-vector-icons/AntDesign'
-import Icon2 from 'react-native-vector-icons/Entypo'
-import Octicons from 'react-native-vector-icons/Octicons'
-import { Video } from "expo"
+import ImageZoom from '../components/imageZoom';
 
+import { Video } from "expo"
 var { width } = Dimensions.get('window');
 
 class HomeScreen extends Component {
@@ -34,6 +31,7 @@ class HomeScreen extends Component {
         linkForModal: "",
         isMuted: true
     }
+
     async getUser() {
         const response = await axios.get(`https://api.imgur.com/3/account/${this.state.user}`, { headers: { 'Authorization': `Client-ID ${this.state.client_id}` } })
         try {
@@ -77,63 +75,9 @@ class HomeScreen extends Component {
         await this.getUserImg();
     }
 
-    setMute(value) {
-        this.setState({
-            isMuted: value
-        })
-    }
-
-    renderIcon() {
-        if (this.state.isMuted == true) {
-            return (
-                <View>
-                    <TouchableOpacity onPress={() => this.setMute(false)}>
-                        <Octicons name="mute" size={25} />
-                    </TouchableOpacity>
-                </View>
-            )
-        } else {
-            return (
-                <View>
-                    <TouchableOpacity onPress={() => this.setMute(true)}>
-                        <Octicons name="unmute" size={25} />
-                    </TouchableOpacity>
-                </View>
-            )
-        }
-    }
-
-    renderLinkContent(link) {
-        if (link.slice(-4) == ".mp4") {
-            return (
-                <View>
-                    {this.renderIcon()}
-                    <Video style={{ width: (width / 3), height: (width / 3) }} rate={1.0} isMuted={!this.state.isMuted} isLooping shouldPlay source={{ uri: link }} />
-                </View>
-            )
-        } else {
-            return (
-                <View>
-                    <Image style={{ width: (width / 2), height: (width / 2) }} source={{ uri: link }} />
-                </View>
-            )
-        }
-    }
-
     renderModal() {
         return (
-            <View style={{ marginTop: 100 }}>
-                <TouchableOpacity onPress={() => this.setModalVisible(false)}>
-                    <Icon2 name="cross" size={25} style={{ marginLeft: 350 }} />
-                </TouchableOpacity>
-                <Text>Titre : {this.state.dataForModal.title}</Text>
-                {this.renderLinkContent(this.state.linkForModal)}
-                <Text>Nb vues : {this.state.dataForModal.views}</Text>
-                <Text>Nb points : {this.state.dataForModal.points}</Text>
-                <TouchableOpacity onPress={() => this.favImage(this.state.dataForModal.id)} >
-                    <Text>Cliquer ici pour mettre en favori</Text>
-                </TouchableOpacity>
-            </View>
+            <ImageZoom link={this.state.linkForModal} data={this.state.dataForModal} isFavo={false} setModalVisible={this.setModalVisible} />
         )
     }
 
@@ -179,12 +123,7 @@ class HomeScreen extends Component {
                 <ScrollView>
                     {this.renderMosaic()}
                 </ScrollView>
-                <Modal
-                    animationType="slide"
-                    transparent={false}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => { }}
-                >
+                <Modal animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => { }}>
                     {this.renderModal()}
                 </Modal>
             </View>

@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import AudioIcon from 'react-native-vector-icons/Octicons'
 
 import { Video } from "expo";
-const { width } = Dimensions.get('window').width;
+const { width } = Dimensions.get('window').width;
 class ImageZoom extends React.PureComponent {
     constructor(props) {
         super(props)
@@ -56,7 +56,7 @@ class ImageZoom extends React.PureComponent {
     renderLinkContent(link) {
         if (link.slice(-4) == ".mp4") {
             return (
-                <Video style={{ width: (width / 3), height: (width / 3) }}  rate={1.0} isMuted={this.state.isMuted} isLooping shouldPlay source={{ uri: link }} />
+                <Video style={{ width: (width / 3), height: (width / 3) }} rate={1.0} isMuted={this.state.isMuted} isLooping shouldPlay source={{ uri: link }} />
             )
         } else {
             return (
@@ -68,7 +68,7 @@ class ImageZoom extends React.PureComponent {
     render() {
         return (
             <View style={styles.container}>
-            {this.renderLinkContent(this.props.link)}
+                {this.renderLinkContent(this.props.link)}
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, marginHorizontal: 15, alignItems: 'flex-start' }}>
                     <View style={{ alignItems: 'center', margin: 10 }} >
                         <Text style={styles.textFirst}>Views</Text>
