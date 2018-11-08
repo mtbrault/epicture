@@ -132,7 +132,7 @@ class HomeScreen extends Component {
                               } }>
         <ImageZoom link={ this.state.linkForModal }
                    data={ this.state.dataForModal }
-                   isFavo={ false }
+                   id={ this.state.dataForModal.id }
                    setModalVisible={ this.setModalVisible } />
       </Modal>
     </View>

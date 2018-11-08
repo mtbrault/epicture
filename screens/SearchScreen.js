@@ -26,6 +26,7 @@ class SearchScreen extends Component {
       modalVisible: false,
       dataForModal: '',
       linkForModal: '',
+      idForModal: '',
       isMuted: true
     }
     this.searchText = this.searchText.bind( this );
@@ -79,12 +80,12 @@ class SearchScreen extends Component {
     this.execSearch();
   }
 
-  setModalVisible( visible, data = '', link = '' ) {
-    console.log( data );
+  setModalVisible( visible, data = '', link = '', id = '' ) {
     this.setState( {
       modalVisible: visible,
       dataForModal: data,
-      linkForModal: link
+      linkForModal: link,
+      idForModal: id
     } )
   }
 
@@ -98,24 +99,33 @@ class SearchScreen extends Component {
       table.push( <View key={ i } style={ { flex: 1, flexDirection: 'row' } }>
                     { this.state.images.slice( i, 3 * count ).map( (data, index) => {
                         if ( data && data.link.length > 2 ) {
-                          if ( data.link.split( -4 ) != '.mp4' ) {
+                            let link = '';
+                            let id = '';
+                            if (data.images) {
+                                link = data.images[ 0 ].link;
+                                id = data.images[ 0 ].id;
+                            } else {
+                                link = data.link;
+                                id = data.id;
+                            }
+                          if ( link.split( -4 ) != '.mp4' ) {
                             return (
                             <View key={ index + i }>
-                              <TouchableOpacity onPress={ () => this.setModalVisible( true, data, data.link ) }>
-                                <Image style={ { width: (width) / 3, height: (width) / 3 } } source={ { uri: data.link } } />
+                              <TouchableOpacity onPress={ () => this.setModalVisible( true, data, link, id ) }>
+                                <Image style={ { width: (width) / 3, height: (width) / 3 } } source={ { uri: link } } />
                               </TouchableOpacity>
                             </View>
                             )
                           } else {
                             return (
                             <View key={ index + i }>
-                              <TouchableOpacity onPress={ () => this.setModalVisible( true, data, data.link ) }>
+                              <TouchableOpacity onPress={ () => this.setModalVisible( true, data, link, id ) }>
                                 <Video style={ { width: (width / 3), height: (width / 3) } }
                                        rate={ 1.0 }
                                        isMuted={ true }
                                        isLooping
                                        shouldPlay
-                                       source={ { uri: data.link } } />
+                                       source={ { uri: link } } />
                               </TouchableOpacity>
                             </View>
                             )
@@ -186,7 +196,7 @@ class SearchScreen extends Component {
                               } }>
         <ImageZoom link={ this.state.linkForModal }
                    data={ this.state.dataForModal }
-                   isFavo={ false }
+                   id={this.state.idForModal}
                    setModalVisible={ this.setModalVisible } />
       </Modal>
     </View>

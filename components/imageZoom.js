@@ -11,18 +11,18 @@ class ImageZoom extends React.PureComponent {
   constructor( props ) {
     super( props )
     this.state = {
+      access_token: 'c513b70b97c5abd633860b8e732a590d9fab3078',
       favoriteSet: false,
       isMuted: true
     }
     this.setFavorite = this.setFavorite.bind( this );
     this.setMuted = this.setMuted.bind( this );
-    console.log( this.props.data );
     if ( !this.props.data.points ) {
       this.props.data.points = 0;
     }
   }
   componentDidMount() {
-    if ( this.props.isFavo ) {
+    if ( this.props.data.favorite == true || (this.props.data.images && this.propos.data.images[0].favorite == true)) {
       this.setState( {
         favoriteSet: true
       } )
@@ -39,17 +39,10 @@ class ImageZoom extends React.PureComponent {
   }
 
   setFavorite() {
-    if ( this.state.favoriteSet ) {
       this.setState( {
-        favoriteSet: false
-      } )
-      this.setFavAPI( this.props.data.id );
-    } else {
-      this.setState( {
-        favoriteSet: true
-      } )
-      this.setFavAPI( this.props.data.id );
-    }
+          favoriteSet: !this.state.favoriteSet
+      })
+      this.setFavAPI( this.props.id );
   }
 
   setMuted() {
@@ -87,6 +80,11 @@ class ImageZoom extends React.PureComponent {
       { this.renderLinkContent( this.props.link ) }
       <View style={ { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, marginHorizontal: 15, alignItems: 'flex-start' } }>
         <View style={ { alignItems: 'center', margin: 10 } }>
+          <Text style={ styles.textFirst} >
+              {this.props.data.account_url}
+          </Text>
+        </View>
+        <View style={ { alignItems: 'center', margin: 10 } }>
           <Text style={ styles.textFirst }>
             Views
           </Text>
@@ -102,7 +100,7 @@ class ImageZoom extends React.PureComponent {
             { this.props.data.points }
           </Text>
         </View>
-        { this.props.link.slice( -4 ) == '.mp4' && <AudioIcon name={ this.state.isMuted ? 'mute' : 'unmute' }
+        { this.props.link.slice( -4 ) == '.mp4' && (this.props.data.has_sound == true || (this.props.data.images && this.props.data.images[0].has_sound == true)) && <AudioIcon name={ this.state.isMuted ? 'mute' : 'unmute' }
                                                               size={ 30 }
                                                               style={ { color: 'white', alignItems: 'flex-end', margin: 8 } }
                                                               onPress={ this.setMuted } /> }

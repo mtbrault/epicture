@@ -20,6 +20,7 @@ class FavoritesScreen extends Component {
     modalVisible: false,
     dataForModal: '',
     linkForModal: '',
+    idForModal: '',
     isMuted: true
   }
 
@@ -40,11 +41,12 @@ class FavoritesScreen extends Component {
     }
   }
 
-  setModalVisible( visible, data = '', link = '' ) {
+  setModalVisible( visible, data = '', link = '', id = '' ) {
     this.setState( {
       modalVisible: visible,
       dataForModal: data,
-      linkForModal: link
+      linkForModal: link,
+      idForModal: id
     } )
   }
 
@@ -61,14 +63,19 @@ class FavoritesScreen extends Component {
       table.push( <View key={ i } style={ { flex: 1, flexDirection: 'row' } }>
                     { this.state.userImgData.slice( i, 3 * count ).map( (data, index) => {
                         let link = '';
-                        if ( data.images )
+                        let id = '';
+                        if ( data.images ) {
                           link = data.images[ 0 ].link;
-                        else
+                          id = data.images[ 0 ].id;
+                        }
+                        else {
                           link = data.link;
+                          id = data.id;
+                        }
                         if ( link.slice( -4 ) == '.mp4' ) {
                           return (
                           <View key={ index + i }>
-                            <TouchableOpacity onPress={ () => this.setModalVisible( true, data, link ) }>
+                            <TouchableOpacity onPress={ () => this.setModalVisible( true, data, link, id ) }>
                               <Video style={ { width: (width / 3), height: (width / 3) } }
                                      rate={ 1.0 }
                                      isMuted={ true }
@@ -81,7 +88,7 @@ class FavoritesScreen extends Component {
                         } else {
                           return (
                           <View key={ index + i }>
-                            <TouchableOpacity onPress={ () => this.setModalVisible( true, data, link ) }>
+                            <TouchableOpacity onPress={ () => this.setModalVisible( true, data, link, id ) }>
                               <Image style={ { width: (width / 3), height: (width / 3) } } source={ { uri: link } } />
                             </TouchableOpacity>
                           </View>
@@ -110,7 +117,7 @@ class FavoritesScreen extends Component {
                               } }>
         <ImageZoom link={ this.state.linkForModal }
                    data={ this.state.dataForModal }
-                   isFavo={ true }
+                   id={ this.state.idForModal }
                    setModalVisible={ this.setModalVisible } />
       </Modal>
     </View>
