@@ -68,7 +68,7 @@ class ImageZoom extends React.PureComponent {
     renderLinkContent(link) {
         if (link.slice(-4) == ".mp4") {
             return (
-                <Video style={{ width: (Dimensions.get('window').width / 3), height: (Dimensions.get('window').width / 3) }} rate={1.0} isMuted={this.state.isMuted} isLooping shouldPlay source={{ uri: link }} />
+                <Video style={styles.imageZoomStyle} rate={1.0} isMuted={this.state.isMuted} isLooping shouldPlay source={{ uri: link }} />
             )
         } else {
             return (

@@ -138,12 +138,6 @@ class SearchScreen extends Component {
         return table;
     }
 
-    renderModal() {
-        return (
-            <ImageZoom link={this.state.linkForModal} data={this.state.dataForModal} isFavo={false} setModalVisible={this.setModalVisible} />
-        )
-    }
-
     renderSecondPart() {
         if (this.state.imgCounter != 0) {
             return (
@@ -202,7 +196,7 @@ class SearchScreen extends Component {
                     </Picker>
                 </View>
                 <Modal animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => { }}>
-                    {this.renderModal()}
+                    <ImageZoom link={this.state.linkForModal} data={this.state.dataForModal} isFavo={false} setModalVisible={this.setModalVisible} />
                 </Modal>
             </View>
         );

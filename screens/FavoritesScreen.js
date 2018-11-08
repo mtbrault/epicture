@@ -93,12 +93,6 @@ class FavoritesScreen extends Component {
         return table;
     }
 
-    renderModal() {
-        return (
-            <ImageZoom link={this.state.linkForModal} data={this.state.dataForModal} isFavo={true} setModalVisible={this.setModalVisible} />
-        )
-    }
-
     render() {
         return (
             <View style={styles.container}>
@@ -107,7 +101,7 @@ class FavoritesScreen extends Component {
                     {this.renderMosaic()}
                 </ScrollView>
                 <Modal animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => { }}>
-                    {this.renderModal()}
+                <ImageZoom link={this.state.linkForModal} data={this.state.dataForModal} isFavo={true} setModalVisible={this.setModalVisible} />
                 </Modal>
             </View>
         );

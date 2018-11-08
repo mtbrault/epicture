@@ -76,12 +76,6 @@ class HomeScreen extends Component {
         await this.getUserImg();
     }
 
-    renderModal() {
-        return (
-            <ImageZoom link={this.state.linkForModal} data={this.state.dataForModal} isFavo={false} setModalVisible={this.setModalVisible} />
-        )
-    }
-
     renderMosaic() {
         var table = [];
         for (var i = 0; i < this.state.imgCounter; i++) {
@@ -125,7 +119,7 @@ class HomeScreen extends Component {
                     {this.renderMosaic()}
                 </ScrollView>
                 <Modal animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => { }}>
-                    {this.renderModal()}
+                <ImageZoom link={this.state.linkForModal} data={this.state.dataForModal} isFavo={false} setModalVisible={this.setModalVisible} />
                 </Modal>
             </View>
         );
