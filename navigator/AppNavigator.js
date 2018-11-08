@@ -14,99 +14,110 @@ import UploadScreen from '../screens/UploadScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 
 const LoginScreenStack = createStackNavigator(
-    {
-        LoginScreen: LoginScreen,
-    },
-    {
-        headerMode: 'none'
-    }
+  {
+    LoginScreen: LoginScreen,
+  },
+  {
+    headerMode: 'none'
+  }
 )
 
-const Tab = createBottomTabNavigator({
-    Home: {
-        screen: HomeScreen,
-        navigationOptions: {
-            tabBarLabel: 'Home',
-            tabBarIcon: ({ tintColor }) => (
-                <Icon name="home" color={tintColor} size={24} />
-            )
-        }
-    },
-    Upload: {
-        screen: UploadScreen,
-        navigationOptions: {
-            tabBarLabel: 'Upload',
-            tabBarIcon: ({ tintColor }) => (
-                <Icon name="upload" color={tintColor} size={24} />
-            )
-        }
-    },
-    Search: {
-        screen: SearchScreen,
-        navigationOptions: {
-            tabBarLabel: 'Search',
-            tabBarIcon: ({ tintColor }) => (
-                <Icon name="search1" color={tintColor} size={24} />
-            )
-        }
-    },
-    Favorites: {
-        screen: FavoritesScreen,
-        navigationOptions: {
-            tabBarLabel: 'Favorites',
-            tabBarIcon: ({ tintColor }) => (
-                <Icon name="staro" color={tintColor} size={24} />
-            )
-        }
+const Tab = createBottomTabNavigator( {
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: {
+      tabBarLabel: 'Home',
+      tabBarIcon: ({tintColor}) => (
+        <Icon name="home"
+              color={ tintColor }
+              size={ 24 } />
+      )
     }
-},{
-    tabBarOptions: {
-      activeTintColor: Colors.tintColor,
-      inactiveTintColor: '#b3b4b8',
-      labelStyle: {
-        fontSize: 10,
+  },
+  Upload: {
+    screen: UploadScreen,
+    navigationOptions: {
+      tabBarLabel: 'Upload',
+      tabBarIcon: ({tintColor}) => (
+        <Icon name="upload"
+              color={ tintColor }
+              size={ 24 } />
+      )
+    }
+  },
+  Search: {
+    screen: SearchScreen,
+    navigationOptions: {
+      tabBarLabel: 'Search',
+      tabBarIcon: ({tintColor}) => (
+        <Icon name="search1"
+              color={ tintColor }
+              size={ 24 } />
+      )
+    }
+  },
+  Favorites: {
+    screen: FavoritesScreen,
+    navigationOptions: {
+      tabBarLabel: 'Favorites',
+      tabBarIcon: ({tintColor}) => (
+        <Icon name="staro"
+              color={ tintColor }
+              size={ 24 } />
+      )
+    }
+  }
+}, {
+  tabBarOptions: {
+    activeTintColor: Colors.tintColor,
+    inactiveTintColor: '#b3b4b8',
+    labelStyle: {
+      fontSize: 10,
+    },
+    style: {
+      backgroundColor: '#222327',
+      borderTopWidth: 0,
+      borderTopColor: 'black',
+      borderTopWidth: 1,
+      shadowOffset: {
+        width: 10,
+        height: 10
       },
-      style: {
-        backgroundColor: '#222327',
-        borderTopWidth: 0,
-        borderTopColor: 'black',
-        borderTopWidth: 1,
-        shadowOffset: { width: 10, height: 10 },
-        shadowColor: 'black',
-        shadowOpacity: 1,
-        elevation: 5
-      }
+      shadowColor: 'black',
+      shadowOpacity: 1,
+      elevation: 5
     }
-  })
+  }
+} )
 
 const SwitchNav = createSwitchNavigator(
-    {
-        Login: {
-            screen: LoginScreenStack,
-            navigationOptions: {
-                tabBarLabel: 'Login Page'
-            }
-        },
-        TabEpicture: {
-            screen: Tab,
-            navigationOptions: {
-                tabBarLabel: 'TabList Page'
-            }
-        },
+  {
+    Login: {
+      screen: LoginScreenStack,
+      navigationOptions: {
+        tabBarLabel: 'Login Page'
+      }
     },
-    {
-        initialRouteName: 'Login',
-    }
+    TabEpicture: {
+      screen: Tab,
+      navigationOptions: {
+        tabBarLabel: 'TabList Page'
+      }
+    },
+  },
+  {
+    initialRouteName: 'Login',
+  }
 )
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
-  
+const styles = StyleSheet.create( {
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+} );
+
 
 export default SwitchNav;
