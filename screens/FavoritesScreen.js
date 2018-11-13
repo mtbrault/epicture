@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import HeaderPage from '../components/headerPage';
 import Colors from '../constants/Colors';
-import { View, StyleSheet, Image, Dimensions, ScrollView, Modal, TouchableOpacity} from 'react-native';
+import { View, StyleSheet, Image, Dimensions, ScrollView, Modal, TouchableOpacity, AsyncStorage } from 'react-native';
 import ImageZoom from '../components/imageZoom';
 
 import { Video } from 'expo';
@@ -15,8 +15,8 @@ class FavoritesScreen extends Component {
   }
 
   state = {
-    user: 'zackmat',
-    access_token: 'c513b70b97c5abd633860b8e732a590d9fab3078',
+    user: null,
+    access_token: null,
     modalVisible: false,
     dataForModal: '',
     linkForModal: '',
@@ -51,6 +51,12 @@ class FavoritesScreen extends Component {
   }
 
   async componentDidMount() {
+    this.setState( {
+      user: await AsyncStorage.getItem( 'userName' ),
+      access_token: await AsyncStorage.getItem( 'accessToken' )
+    } )
+    console.log(this.state.user);
+    console.log(this.state.access_token);
     await this.getUserFav();
   }
 
@@ -67,8 +73,7 @@ class FavoritesScreen extends Component {
                         if ( data.images ) {
                           link = data.images[ 0 ].link;
                           id = data.images[ 0 ].id;
-                        }
-                        else {
+                        } else {
                           link = data.link;
                           id = data.id;
                         }

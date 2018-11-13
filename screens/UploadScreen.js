@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { View, StyleSheet, TouchableOpacity, Text, Image,
+import { View, StyleSheet, TouchableOpacity, Text, AsyncStorage
 } from 'react-native';
 
 import { ImagePicker } from 'expo';
@@ -13,9 +13,16 @@ class UploadScreen extends Component {
     super( props );
   }
   state = {
-    user: 'zackmat',
-    access_token: 'c513b70b97c5abd633860b8e732a590d9fab3078',
+    user: null,
+    access_token: null,
     imageSource: null
+  }
+
+  async componentDidMount() {
+    this.setState({
+      user: await AsyncStorage.getItem('userName'),
+      access_token: await AsyncStorage.getItem('accessToken')
+    })
   }
 
   _uploadImg = async () => {

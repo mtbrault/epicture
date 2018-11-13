@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import { View, StyleSheet, TextInput, Platform, StatusBar, Text, ScrollView, Image, Dimensions, Picker, Modal, TouchableOpacity} from 'react-native';
+import { View, StyleSheet, TextInput, Platform, StatusBar, Text, ScrollView, Image, Dimensions, Picker, Modal, TouchableOpacity, AsyncStorage} from 'react-native';
 
 import Icon from 'react-native-vector-icons/AntDesign'
 import ClientID from '../constants/apiInfo';
@@ -16,8 +16,8 @@ class SearchScreen extends Component {
   constructor( props ) {
     super( props );
     this.state = {
-      user: 'zackmat',
-      access_token: 'c513b70b97c5abd633860b8e732a590d9fab3078',
+      user: null,
+      access_token: null,
       curText: '',
       images: [],
       imgCounter: 0,
@@ -41,6 +41,13 @@ class SearchScreen extends Component {
     if ( Platform.OS == 'android' ) {
       this.startHeaderHeight = 50 + StatusBar.currentHeight
     }
+  }
+
+  async componentDidMount() {
+    this.setState({
+      user: await AsyncStorage.getItem('userName'),
+      access_token: await AsyncStorage.getItem('accessToken')
+    })
   }
 
   searchText() {

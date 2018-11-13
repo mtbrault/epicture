@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios';
-import { Text, Dimensions, View, Image, StyleSheet,
+import { Text, Dimensions, View, Image, StyleSheet, AsyncStorage
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -11,7 +11,7 @@ class ImageZoom extends React.PureComponent {
   constructor( props ) {
     super( props )
     this.state = {
-      access_token: 'c513b70b97c5abd633860b8e732a590d9fab3078',
+      access_token: null,
       favoriteSet: false,
       isMuted: true
     }
@@ -21,12 +21,16 @@ class ImageZoom extends React.PureComponent {
       this.props.data.points = 0;
     }
   }
-  componentDidMount() {
+
+  async componentDidMount() {
     if ( this.props.data.favorite == true || (this.props.data.images && this.propos.data.images[0].favorite == true)) {
       this.setState( {
         favoriteSet: true
       } )
     }
+    this.setState({
+        access_token: await AsyncStorage.getItem('accessToken')
+    })
   }
 
   setFavAPI( id ) {

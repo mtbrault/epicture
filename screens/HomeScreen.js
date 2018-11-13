@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import { View, StyleSheet, Image, TouchableOpacity, ScrollView, Dimensions, Modal} from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, ScrollView, Dimensions, Modal, AsyncStorage } from 'react-native';
 
 import HeaderUser from '../components/headerUser';
 import Colors from '../constants/Colors';
 import ImageZoom from '../components/imageZoom';
 
 import { Video } from 'expo'
+import apiInfo from '../constants/apiInfo';
+
 var {width} = Dimensions.get( 'window' );
 
 class HomeScreen extends Component {
@@ -22,7 +24,10 @@ class HomeScreen extends Component {
     modalVisible: false,
     dataForModal: '',
     linkForModal: '',
-    isMuted: true
+    isMuted: true,
+    client_id: apiInfo.clientID,
+    user: null,
+    access_token: null
   }
 
   async getUser() {
@@ -74,6 +79,10 @@ class HomeScreen extends Component {
   }
 
   async componentDidMount() {
+    this.setState( {
+      user: await AsyncStorage.getItem( 'userName' ),
+      access_token: await AsyncStorage.getItem( 'accessToken' )
+    } )
     await this.getUser();
     await this.getUserImg();
   }
