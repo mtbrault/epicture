@@ -1,0 +1,16 @@
+#Sat Nov 17 01:07:23 CET 2018
+path.3=classes3.dex
+path.2=classes2.dex
+path.1=classes.dex
+renamed.4=classes5.dex
+path.0=classes.dex
+renamed.3=classes4.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+base.4=/home/blackbirdz/project/epitcture/android/app/build/intermediates/transforms/dexMerger/devMinSdkDevKernel/debug/1
+renamed.0=classes.dex
+base.3=/home/blackbirdz/project/epitcture/android/app/build/intermediates/transforms/dexMerger/devMinSdkDevKernel/debug/1
+base.2=/home/blackbirdz/project/epitcture/android/app/build/intermediates/transforms/dexMerger/devMinSdkDevKernel/debug/1
+base.1=/home/blackbirdz/project/epitcture/android/app/build/intermediates/transforms/dexMerger/devMinSdkDevKernel/debug/1
+base.0=/home/blackbirdz/project/epitcture/android/app/build/intermediates/transforms/dexMerger/devMinSdkDevKernel/debug/0
+path.4=classes4.dex
