@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^8.0.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "expo": "^30.0.1",
     "expokit": "^1.7.1",
     "native-base": "^2.8.1",
